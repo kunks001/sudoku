@@ -4,7 +4,6 @@ require './lib/cell'
 describe Grid do
 
 let(:grid){Grid.new}
-let(:cell){Cell.new}
 
 	it 'should initialise with an array of length 81' do
 		grid.cells.count.should eq 81

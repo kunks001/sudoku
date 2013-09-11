@@ -10,6 +10,10 @@ attr_accessor :value
 		@value
 	end
 
+	def candidates
+		(1..9).to_a
+	end
+
 	# def filled_out?
 	# 	self != nil ? true : false 
 	# end
