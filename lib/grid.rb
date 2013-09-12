@@ -25,12 +25,27 @@ attr_accessor :cells
 		@boxes
 	end
 
+	# def cell_value
+	# 	@cell_value
+	# end
+
+
 	def row_setup
 		@rows = cells.each_slice(9).to_a
 	end
 
 	def cells
 		@cells
+	end
+
+	def values
+		x = Array.new
+		cells.each { |cell| x << cell.value }
+		x
+	end
+
+	def solved?
+		values.include?(0) ? false: true
 	end
 
 	def cell_neighbours(cell)
@@ -68,4 +83,16 @@ attr_accessor :cells
 		boxes
 	end
 
+	def solve
+		# outstanding_before, looping = SIZE, false
+		# while !solved? 
+			# && !looping
+
+			cells.each { |cell|	cell.find_value(self) }
+
+			# outstanding 		= @cells.count { |c| c.solved? }
+			# looping 			= outstanding_before == outstanding
+			# outstanding_before 	= outstanding
+		# end
+	end
 end

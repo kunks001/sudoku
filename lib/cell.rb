@@ -2,9 +2,11 @@ class Cell
 
 attr_accessor :value
 
-	def initialize(arg, neighbours = nil)
+	def initialize(arg)
 		@value = arg
-		@neighbours = neighbours
+		@neighbours = nil
+		@possible_cell_values = []
+		@neighbour_values
 	end
 
 	def value
@@ -15,26 +17,64 @@ attr_accessor :value
 		@neighbours
 	end
 
-	# def check_neighbours(grid)
-	# 	neighbours = cell_neighbours(self)
-	# end
+	def neighbour_values
+		@neighbour_values
+	end
+
+	def possible_cell_values
+		@possible_cell_values
+	end
 
 	def candidates
 		(1..9).to_a
 	end
 
-	def solve(grid)
-		cell_neighbours = grid.cell_neighbours(self)
+	def find_value(grid)
 
-		cell_neighbour_values = []
+		if value == 0
 
-		cell_neighbours.each do |cell|
-			cell_neighbour_values << cell.value
+			neighbours = grid.cell_neighbours(self)
+
+			#### RETURNS ARRAY OF CELL NEIGHBOURS
+
+			n_values = []
+
+			neighbours.each { |n| n_values << n.value }
+
+			n_values = n_values.uniq!.sort
+
+			##### CREATES, POPULATES THEN SORTS ARRAY WITH NEIGHBOUR VALUES
+
+			n_values.shift
+
+			@neighbour_values = n_values
+
+			##### GETS RID OF 0 VALUE IN ARRAY AND ASSIGNS TO INSTANCE VARIABLE
+
+			for n in (1..9) 
+				if neighbour_values.include?(n)
+				else
+					@possible_cell_values << n
+				end
+			end
+
+			##### FINDS POSSIBLE CELL VALUES IN ARRAY FORM
+
+			if possible_cell_values.count == 1
+				@value = possible_cell_values
+			end
+		else
 		end
-
+		# possible_cell_values = []
 	end
 
-	# def filled_out?
-	# 	self != nil ? true : false 
+	# def recursive(n=9)
+	# 	return n if n == 0
+	# 	if neighbour_values.include?(n)
+	# 	else
+	# 		@possible_cell_values << n
+	# 	end
+	# 	recursive(n-1)
 	# end
+
 end
