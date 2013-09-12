@@ -30,42 +30,38 @@ attr_accessor :value
 	end
 
 	def find_value(grid)
-
 		if value == 0
-
 			neighbours = grid.cell_neighbours(self)
 
-			#### RETURNS ARRAY OF CELL NEIGHBOURS
+			set_neighbour_values(neighbours)
+			set_possible_cell_values(neighbour_values)
 
-			n_values = []
-
-			neighbours.each { |n| n_values << n.value }
-
-			n_values = n_values.uniq!.sort
-
-			##### CREATES, POPULATES THEN SORTS ARRAY WITH NEIGHBOUR VALUES
-
-			n_values.shift
-
-			@neighbour_values = n_values
-
-			##### GETS RID OF 0 VALUE IN ARRAY AND ASSIGNS TO INSTANCE VARIABLE
-
-			for n in (1..9) 
-				if neighbour_values.include?(n)
-				else
-					@possible_cell_values << n
-				end
-			end
-
-			##### FINDS POSSIBLE CELL VALUES IN ARRAY FORM
-
-			if possible_cell_values.count == 1
-				@value = possible_cell_values
-			end
-		else
+			set_value if possible_cell_values.count == 1
 		end
-		# possible_cell_values = []
+	end
+
+	def set_neighbour_values(neighbours)
+		n_values = []
+		
+		neighbours.each { |n| n_values << n.value }
+
+		n_values = n_values.uniq!.sort
+		n_values.shift
+
+		@neighbour_values = n_values
+	end
+
+	def set_possible_cell_values(neighbour_values)
+		for n in (1..9) 
+			if neighbour_values.include?(n)
+			else
+				@possible_cell_values << n
+			end
+		end
+	end
+
+	def set_value
+		@value = possible_cell_values.shift
 	end
 
 	# def recursive(n=9)

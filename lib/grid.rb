@@ -25,11 +25,6 @@ attr_accessor :cells
 		@boxes
 	end
 
-	# def cell_value
-	# 	@cell_value
-	# end
-
-
 	def row_setup
 		@rows = cells.each_slice(9).to_a
 	end
