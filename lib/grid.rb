@@ -44,7 +44,7 @@ attr_accessor :cells
 	end
 
 	def cell_neighbours(cell)
-		cell_neighbours = n_row(cell).concat(n_column(cell)).concat(n_box(cell))
+		cell_neighbours = [n_row(cell).to_a, (n_column(cell)).to_a, (n_box(cell)).to_a]
 		cell_neighbours
 	end
 
@@ -65,22 +65,17 @@ attr_accessor :cells
 
 	def boxes_setup
 		slices = (cells.each_slice(9).to_a).each_slice(3).to_a
-		build_boxes(slices)
-	end
 
-	def build_boxes(slices)
 		slices.each { |box| @boxes << box.transpose }
-		split_boxes
-	end
+	
+		boxes = @boxes.flatten!
 
-	def split_boxes
-		boxes = @boxes.flatten.each_slice(9).to_a
-		boxes
+		@boxes = boxes.each_slice(9).to_a
 	end
 
 	def solve
 		# outstanding_before, looping = SIZE, false
-		# while !solved? 
+		while !solved? 
 			# && !looping
 
 			cells.each { |cell|	cell.find_value(self) }
@@ -88,6 +83,6 @@ attr_accessor :cells
 			# outstanding 		= @cells.count { |c| c.solved? }
 			# looping 			= outstanding_before == outstanding
 			# outstanding_before 	= outstanding
-		# end
+		end
 	end
 end

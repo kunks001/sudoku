@@ -27,7 +27,7 @@ let(:grid){Grid.new}
 		grid.n_column(cell).should eq grid.rows.transpose[5]
 	end
 
-	# it 'should split into 9 arrays of three arrays' do
+	it 'should split into 9 arrays of three arrays' do
 	# 	boxes = grid.three_by_three
 	# 	boxes[0].count.should eq 9
 	# 	boxes[0][0].count.should eq 3
