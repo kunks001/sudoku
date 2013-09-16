@@ -18,7 +18,8 @@ attr_accessor :value
 	def find_value(grid)
 		if value == 0
 			neighbour_values = find_neighbours(grid) 
-			find_possible_value(neighbour_values)
+			possible_values = find_possible_values(neighbour_values)
+			set_value?(possible_values)
 		end
 	end
 
@@ -35,14 +36,14 @@ attr_accessor :value
 		end
 	end
 
-	def find_possible_value(neighbour_values)
+	def find_possible_values(neighbour_values)
 		possible_cell_values = []
 		for n in (1..9)
 			unless neighbour_values.include?(n)
 				possible_cell_values << n
 			end
 		end
-		set_value?(possible_cell_values)
+		possible_cell_values
 	end
 
 	def set_value?(possible_cell_values)
