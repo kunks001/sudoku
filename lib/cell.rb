@@ -2,14 +2,9 @@ class Cell
 
 attr_accessor :value
 
-	def initialize(arg)
-		@value = arg
+	def initialize(value)
+		@value = value
 		@neighbours = nil
-		@possible_cell_values = []
-		@neighbour_values = []
-		@other_other_values = []
-		@other_possible_cell_values = []
-		@final_possible_cell_values = []
 	end
 
 	def value
@@ -20,93 +15,43 @@ attr_accessor :value
 		@neighbours
 	end
 
-	def neighbour_values
-		@neighbour_values
-	end
-
-	def other_possible_cell_values
-		@other_possible_cell_values
-	end
-
-	def final_possible_cell_values
-		@final_possible_cell_values
-	end
-
-	def possible_cell_values
-		@possible_cell_values
-	end
-
-	def candidates
-		(1..9).to_a
-	end
-
 	def find_value(grid)
-		possible_values(grid)
-		other_values(grid)
-		final_values
+		if value == 0
+			neighbour_values = find_neighbours(grid) 
+			find_possible_value(neighbour_values)
+		end
 	end
 
-	def possible_values(grid)
+	def find_neighbours(grid)
 		if value == 0
 			neighbours = grid.cell_neighbours(self)
-			neighbour_values = nv(neighbours)
-
-			neighbour_values.each do |array|
-				for n in (1..9)
-					unless array.include?(n)
-						possible_cell_values << n
-					end
-				end
-				possible_cell_values.count == 1 ? set_value : reset
-			end
+			retrieve_neighbour_values(neighbours)
 		end
 	end
 
-	def other_values(grid)
-		if value == 0
-			others = grid.cell_neighbours(self)
-			other_other_values = nv(others)
-			other_other_values.flatten!
-
-			for n in (1..9)
-				if other_other_values.include?(n)
-				else
-					other_possible_cell_values << n
-				end
-			end
-
-			if other_possible_cell_values.count == 1 
-				set_value 
-			end
+	def retrieve_neighbour_values(neighbours)
+		neighbours.flatten.map! do |cell|
+			cell = cell.value
 		end
 	end
 
-	def final_values
+	def find_possible_value(neighbour_values)
+		possible_cell_values = []
 		for n in (1..9)
-			if possible_cell_values.include?(n) && other_possible_cell_values.include?(n)
-				final_possible_cell_values << n
+			unless neighbour_values.include?(n)
+				possible_cell_values << n
 			end
-		end	
-
-		set_value if final_possible_cell_values.count == 1
-		reset
+		end
+		set_value?(possible_cell_values)
 	end
 
-	def nv(neighbours)
-		neighbours.each do |array|
-			array.map! do |cell|
-				cell = cell.value
-			end
+	def set_value?(possible_cell_values)
+		if possible_cell_values.count == 1
+			set_value(possible_cell_values)
 		end
 	end
 
-	def reset
-		@possible_cell_values = []
-		@other_possible_cell_values = []
-		@final_possible_cell_values = []
-	end
-
-	def set_value
-		@value = possible_cell_values.shift || other_possible_cell_values.shift
+	def set_value(possible_cell_values)
+		@value = possible_cell_values.shift
 	end
 end

@@ -14,7 +14,6 @@ attr_accessor :cells
 	def setup
 		num = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'.split('')
 		@cells = num.map {|value| Cell.new(value.to_i) }
-		# .each_slice(9).to_a
 	end
 
 	def rows
@@ -65,24 +64,19 @@ attr_accessor :cells
 
 	def boxes_setup
 		slices = (cells.each_slice(9).to_a).each_slice(3).to_a
-
 		slices.each { |box| @boxes << box.transpose }
-	
-		boxes = @boxes.flatten!
+		return_boxes
+	end
 
+	def return_boxes
+		boxes = @boxes.flatten!
 		@boxes = boxes.each_slice(9).to_a
 	end
 
 	def solve
-		# outstanding_before, looping = SIZE, false
 		while !solved? 
-			# && !looping
-
 			cells.each { |cell|	cell.find_value(self) }
-
-			# outstanding 		= @cells.count { |c| c.solved? }
-			# looping 			= outstanding_before == outstanding
-			# outstanding_before 	= outstanding
 		end
+		values
 	end
 end
