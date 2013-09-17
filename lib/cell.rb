@@ -42,7 +42,7 @@ attr_accessor :value
 			unless neighbour_values.include?(n)
 				possible_cell_values << n
 			end
-		end
+		end	
 		possible_cell_values
 	end
 
@@ -54,5 +54,9 @@ attr_accessor :value
 
 	def set_value(possible_cell_values)
 		@value = possible_cell_values.shift
+	end
+
+	def solved?
+		@value != 0
 	end
 end

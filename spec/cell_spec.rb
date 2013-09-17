@@ -34,13 +34,11 @@ let(:cell_four){Cell.new(4)}
 		end
 
 		it 'retrieve its neighbours values' do
-			expect(cell.retrieve_neighbour_values(
-				[cell_eight, cell_four])).to eq [8, 4]
+			expect(cell.retrieve_neighbour_values([cell_eight, cell_four])).to eq [8, 4]
 		end
 
 		it 'find possible values for itself' do
-			expect(cell.find_possible_values(
-				[1,2,3,4,5,6])).to eq [7,8,9]
+			expect(cell.find_possible_values([1,2,3,4,5,6])).to eq [7,8,9]
 		end
 		
 		it 'determine if it can set its value' do
@@ -51,6 +49,10 @@ let(:cell_four){Cell.new(4)}
 		it 'set its value' do
 			cell.set_value([1])
 			expect(cell.value).to eq 1
+		end
+
+		it 'determine if it is solved' do
+			expect(cell_eight.solved?).to eq true
 		end
 	end
 end

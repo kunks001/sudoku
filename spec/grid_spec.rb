@@ -18,7 +18,6 @@ let(:fifth_cell){grid.cells[5]}
 	end
 
 	context 'should when initialising' do
-
 		it 'create and assign values to cell objects' do
 			expect(cell.value).to eq 0
 		end
@@ -34,8 +33,7 @@ let(:fifth_cell){grid.cells[5]}
 		end
 	end
 
-	context 'after initialisation should be able to' do
-
+	context 'should be able to' do
 		it 'identify the row a cell in in' do
 			expect(grid.n_row(fifth_cell)).to eq grid.rows[0]
 		end
@@ -48,7 +46,7 @@ let(:fifth_cell){grid.cells[5]}
 			expect(grid.n_box(cell)).to eq grid.boxes[0]
 		end	
 
-		it 'return an array containing rows, columns & boxes of neighbours' do
+		it 'return an array of neighbouring row, column & box' do
 			expect(grid.cell_neighbours(cell).count).to eq 3
 		end
 
@@ -64,9 +62,14 @@ let(:fifth_cell){grid.cells[5]}
 			expect(grid.solved?).to eq false
 		end
 
+		it 'solve the sudoku' do
+			grid.solve
+			expect(grid.values.any?).to_not eq 0
+		end
+
 		it 'tell when it is solved' do
 			grid.solve
 			expect(grid.solved?).to eq true
-		end
+		end	
 	end
 end

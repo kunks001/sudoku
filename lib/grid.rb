@@ -13,6 +13,7 @@ attr_accessor :cells
 
 	def setup
 		num = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'.split('')
+        # num = "800000000003600000070090200050007000000045700000100030001000068008500010090000400".split('')
 		@cells = num.map {|value| Cell.new(value.to_i) }
 	end
 
@@ -33,9 +34,7 @@ attr_accessor :cells
 	end
 
 	def values
-		x = Array.new
-		cells.each { |cell| x << cell.value }
-		x
+		cells.map{ |cell| cell.value }
 	end
 
 	def solved?
@@ -43,23 +42,19 @@ attr_accessor :cells
 	end
 
 	def cell_neighbours(cell)
-		cell_neighbours = [n_row(cell).to_a, (n_column(cell)).to_a, (n_box(cell)).to_a]
-		cell_neighbours
+		[n_row(cell).to_a, (n_column(cell)).to_a, (n_box(cell)).to_a]
 	end
 
 	def n_row(cell)
-		cell_row = rows.select { |array| array.include?(cell)}.flatten
-		cell_row
+		rows.select { |array| array.include?(cell) }.flatten
 	end
 
 	def n_column(cell)
-		cell_column = rows.transpose.select { |array| array.include?(cell)}.flatten
-		cell_column
+		rows.transpose.select { |array| array.include?(cell) }.flatten
 	end
 
 	def n_box(cell)
 		cell_box = boxes.select { |box| box.include?(cell) }.flatten
-		cell_box
 	end
 
 	def boxes_setup
@@ -73,10 +68,10 @@ attr_accessor :cells
 		@boxes = boxes.each_slice(9).to_a
 	end
 
+
 	def solve
-		while !solved? 
+		while !solved?
 			cells.each { |cell|	cell.find_value(self) }
-		end
-		values
+        end
 	end
 end
