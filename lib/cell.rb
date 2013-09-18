@@ -1,59 +1,55 @@
 class Cell
 
 attr_accessor :value
+attr_accessor :neighbours
 
 	def initialize(value)
 		@value = value
-		@neighbours = nil
+		@possible_values = []
+		@neighbours = nil	
+	end
+
+	def inspect
+		"cell: #{value}"
 	end
 
 	def value
 		@value
 	end
 
+	def possible_values
+		@possible_values
+	end
+
 	def neighbours
 		@neighbours
 	end
 
-	def find_value(grid)
+	def find_value
 		if value == 0
-			neighbour_values = find_neighbours(grid) 
-			possible_values = find_possible_values(neighbour_values)
-			set_value?(possible_values)
+			neighbour_values = find_neighbour_values 
+			find_possible_values(neighbour_values)
+			set_value
 		end
 	end
 
-	def find_neighbours(grid)
-		if value == 0
-			neighbours = grid.cell_neighbours(self)
-			retrieve_neighbour_values(neighbours)
-		end
-	end
-
-	def retrieve_neighbour_values(neighbours)
-		neighbours.flatten.map! do |cell|
-			cell = cell.value
-		end
+	def find_neighbour_values
+		neighbours.flatten.map!(&:value)
 	end
 
 	def find_possible_values(neighbour_values)
-		possible_cell_values = []
 		for n in (1..9)
-			unless neighbour_values.include?(n)
-				possible_cell_values << n
-			end
+			@possible_values << n unless neighbour_values.include?(n)
 		end	
-		possible_cell_values
+		possible_values
 	end
 
-	def set_value?(possible_cell_values)
-		if possible_cell_values.count == 1
-			set_value(possible_cell_values)
+	def set_value
+		if @possible_values.count == 1
+			@value = @possible_values.shift
+		else
+			@possible_values = []
 		end
-	end
-
-	def set_value(possible_cell_values)
-		@value = possible_cell_values.shift
 	end
 
 	def solved?

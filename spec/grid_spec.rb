@@ -5,15 +5,10 @@ describe Grid do
 
 let(:grid){Grid.new}
 let(:cell){grid.cells[0]}
-let(:fifth_cell){grid.cells[5]}
 
 	context 'should initialise with' do
 		it 'with an array of length 81' do
 			expect(grid.cells.count).to eq 81
-		end
-
-		it 'with an array of cell objects' do
-			expect(cell).to be_an_instance_of Cell
 		end
 	end
 
@@ -35,11 +30,11 @@ let(:fifth_cell){grid.cells[5]}
 
 	context 'should be able to' do
 		it 'identify the row a cell in in' do
-			expect(grid.n_row(fifth_cell)).to eq grid.rows[0]
+			expect(grid.n_row(grid.cells[4])).to eq grid.rows[0]
 		end
 
 		it 'identify the column a cell is in' do
-			expect(grid.n_column(fifth_cell)).to eq grid.rows.transpose[5]
+			expect(grid.n_column(grid.cells[4])).to eq grid.rows.transpose[4]
 		end
 
 		it 'identify the box a cell is in' do
@@ -57,19 +52,5 @@ let(:fifth_cell){grid.cells[5]}
 		it 'return an array of cell values' do
 			expect(grid.values[0]).to be_an Integer
 		end
-
-		it 'tell when it is not solved' do
-			expect(grid.solved?).to eq false
-		end
-
-		it 'solve the sudoku' do
-			grid.solve
-			expect(grid.values.any?).to_not eq 0
-		end
-
-		it 'tell when it is solved' do
-			grid.solve
-			expect(grid.solved?).to eq true
-		end	
 	end
 end
