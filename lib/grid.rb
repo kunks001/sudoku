@@ -129,4 +129,6 @@ attr_reader :grid
 			puts "|\n_____________________________________"
 		end
 	end
+
+	
 end
